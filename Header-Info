@@ -1,0 +1,44 @@
+Sub Headerinformation()
+'
+' Headerinformation Macro
+'
+
+'
+    Sheets.Add After:=ActiveSheet
+    ActiveCell.FormulaR1C1 = "Influencer"
+    Range("B1").Select
+    ActiveCell.FormulaR1C1 = "Amount of Times Used"
+    Range("C1").Select
+    ActiveCell.FormulaR1C1 = "Total Sales"
+    Range("D1").Select
+    ActiveCell.FormulaR1C1 = "Compensation"
+    Range("A1:D1").Select
+    Selection.Font.Bold = True
+    Columns("A:A").EntireColumn.AutoFit
+    Columns("B:B").EntireColumn.AutoFit
+    Columns("C:C").ColumnWidth = 8.22
+    Columns("C:C").EntireColumn.AutoFit
+    Columns("D:D").EntireColumn.AutoFit
+    Selection.Font.Size = 12
+    Selection.Font.Size = 14
+    Selection.Font.Size = 16
+    Columns("A:D").Select
+    Columns("A:D").EntireColumn.AutoFit
+    Range("A1:D1").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    Selection.Borders(xlEdgeLeft).LineStyle = xlNone
+    Selection.Borders(xlEdgeTop).LineStyle = xlNone
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideVertical).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("A2").Select
+End Sub
+
+
