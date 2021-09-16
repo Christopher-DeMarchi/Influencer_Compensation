@@ -1,0 +1,27 @@
+Sub Send_Email()
+
+Dim EmailApp As Outlook.Application
+Dim Source As String
+Set EmailApp = New Outlook.Application
+
+Dim EmailItem As Outlook.MailItem
+Set EmailItem = EmailApp.CreateItem(olMailItem)
+
+EmailItem.To = "<insert email address here>"
+EmailItem.CC = "Christopher.k.demarchi@gmail.com"
+'EmailItem.BCC = "hhhh@gmail.com"
+EmailItem.Subject = "Influencer Compensation Data"
+EmailItem.HTMLBody = "Hi," & vbNewLine & vbNewLine & "Attached to this email is the influencer compensation workbook" & _
+                        vbNewLine & vbNewLine & _
+                        "Regards," & vbNewLine & _
+                        "Chris"
+
+                        
+Source = ActiveWorkbook.FullName
+
+EmailItem.Attachments.Add Source
+
+EmailItem.Send
+
+End Sub
+
