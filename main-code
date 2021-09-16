@@ -1,0 +1,177 @@
+Sub InfluencerCompensationCode()
+
+Dim n As Integer 'Name Array Counter
+Dim i As Single 'Index Counter
+Dim w As Integer 'Writing Counter
+Dim c As Integer 'Total number of rows
+Dim r As Integer 'Total number of influencer codes
+Dim rc As Integer 'r counter
+Dim f As Integer 'formula counter for each sheet
+Dim LastRowIndex As Integer
+Dim RowIndex As Integer
+Dim UsedRng As Range
+ 
+n = 1
+i = 1
+
+'Get a count of the total number of rows and make a variable
+' c = total number of rows
+'----------------------------------------------------------Trim Imported Data Columns-------------------------------------------------------------------------
+ActiveSheet.Name = "RawData"
+
+ColumnDeleteforCommission
+
+Sheets.Add.Name = "InfluencerCodes"
+Sheets("InfluencerCodes").Visible = True
+
+'--------------------------------------------------------Get Influencer Codes from Raw Data------------------------------------------------------------------
+Sheets("RawData").Columns(10).Copy Sheets("InfluencerCodes").Columns(1)
+
+Sheets("InfluencerCodes").Columns(1).RemoveDuplicates Columns:=1, Header:=xlYes
+
+    Set UsedRng = Sheets("InfluencerCodes").UsedRange
+    LastRowIndex = UsedRng.Row - 1 + UsedRng.Rows.Count
+    Application.ScreenUpdating = False
+ 
+    For RowIndex = LastRowIndex To 1 Step -1
+        If Application.CountA(Rows(RowIndex)) = 0 Then
+            Rows(RowIndex).Delete
+        End If
+    Next RowIndex
+ 
+    Application.ScreenUpdating = True
+r = WorksheetFunction.CountA(Range("A:A")) ' Amount of Codes in use
+'r = r - 1
+
+'--------------------------------------------------------Populate new sheets with information--------------------------------------------------------------------
+
+
+'                               -------------------------Header information and format--------------------------------
+
+
+
+'----------------------------------------------------------Chris's Pay-------------------------------------------------------------------------------
+    
+    Sheets.Add.Name = "Chris"
+   
+    Range("A1").Select
+    ActiveCell.FormulaR1C1 = "Influencer"
+    Range("B1").Select
+    ActiveCell.FormulaR1C1 = "Amount of Orders"
+    Range("C1").Select
+    ActiveCell.FormulaR1C1 = "Total Sales"
+    Range("D1").Select
+    ActiveCell.FormulaR1C1 = "Compensation"
+    Range("A1:D1").Select
+    Selection.Font.Bold = True
+    Selection.Font.Size = 16
+    Columns("A:D").Select
+    Columns("A:D").EntireColumn.AutoFit
+    Range("A1:D1").Select
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+
+f = WorksheetFunction.CountA(Sheets("RawData").Range("A:A")) - 1
+f = CStr(f)
+
+Total = WorksheetFunction.Sum(Sheets("RawData").Range("F2:F" & f)) + WorksheetFunction.Sum(Sheets("RawData").Range("K2:K" & f))
+TotalCompensation = (Total - 613) * 0.15
+
+Sheets("Chris").Range("A2") = "Chris"
+Sheets("Chris").Range("B2") = f
+Sheets("Chris").Range("C2") = Total
+Sheets("Chris").Range("C2").NumberFormat = "$#,##0.00"
+Sheets("Chris").Range("D2") = TotalCompensation
+Sheets("Chris").Range("D2").NumberFormat = "$#,##0.00"
+
+
+'-------------------------------------------checks to see if the ifluencer code was used--------------------------------------------------------------
+For rc = 2 To r 'Starts at the second spot on the influencer codes list and runs through each
+
+CodeName = CStr(Sheets("InfluencerCodes").Cells(rc, 1))
+
+If IsEmpty(Sheets("InfluencerCodes").Cells(rc, 1)) = False Then
+
+            InfluencerName = Sheets("InfluencerCodes").Cells(rc, 1)
+            Sheets.Add.Name = InfluencerName
+            Sheets("RawData").Rows(1).Copy Sheets(InfluencerName).Cells(4, 1)
+            Sheets(InfluencerName).Rows(4).Select
+            Selection.Font.Bold = True
+            Range("A1").Select
+            ActiveCell.FormulaR1C1 = "Influencer"
+            Range("B1").Select
+            ActiveCell.FormulaR1C1 = "Amount of Times Used"
+            Range("C1").Select
+            ActiveCell.FormulaR1C1 = "Total Sales"
+            Range("D1").Select
+            ActiveCell.FormulaR1C1 = "Compensation"
+            Range("A1:D1").Select
+            Selection.Font.Bold = True
+            Selection.Font.Size = 16
+            Columns("A:D").Select
+            Columns("A:D").EntireColumn.AutoFit
+            Range("A1:D1").Select
+            With Selection.Borders(xlEdgeBottom)
+                .LineStyle = xlContinuous
+                .ColorIndex = 0
+                .TintAndShade = 0
+                .Weight = xlThin
+            End With
+        '                               ----------------------------Inserting the Raw data---------------------------------------
+    
+    c = WorksheetFunction.CountA(Sheets("RawData").Range("A:A")) 'Determines the amount of line items in the raw data
+    c = c - 1
+    
+    i = 5 'Starting Postion of the data input
+    
+    For n = 1 To c 'Loops through the raw data list
+        If Sheets("InfluencerCodes").Cells(rc, 1).Value = Sheets("RawData").Cells(n, 10).Value Then
+            Sheets("RawData").Rows(n).Copy Sheets(InfluencerName).Cells(i, 1)
+            i = i + 1
+        Else
+        End If
+    Next n
+    Sheets(InfluencerName).Columns("A:R").AutoFit
+    
+    '                             -----------------------------Summing Data and inputing the formulas--------------------------
+    
+    f = WorksheetFunction.CountA(Sheets(InfluencerName).Range("A:A"))
+    f = CStr(f)
+    Total = WorksheetFunction.Sum(Sheets(InfluencerName).Range("F5:F" & f)) + WorksheetFunction.Sum(Sheets(InfluencerName).Range("K5:K" & f))
+    TotalCompensation = WorksheetFunction.Sum(Sheets(InfluencerName).Range("K5:K" & f)) / 2
+    
+    Sheets(InfluencerName).Range("A2") = InfluencerName
+    Sheets(InfluencerName).Range("B2") = f
+    Sheets(InfluencerName).Range("C2") = Total
+    Sheets(InfluencerName).Range("C2").NumberFormat = "$#,##0.00"
+    Sheets(InfluencerName).Range("D2") = TotalCompensation
+    Sheets(InfluencerName).Range("D2").NumberFormat = "$#,##0.00"
+    
+    '                              ----------------------------Export to pdf------------------------------------------------
+'    Sheets(InfluencerName).PageSetup.Orientation = xlLandscape
+ '   Sheets(InfluencerName).Cells.Select
+    
+  '  With Sheets(InfluencerName).PageSetup
+   '         .FitToPagesWide = 1
+    '        .FitToPagesTall = False
+    'End With
+    
+     '  Selection.ExportAsFixedFormat Type:=xlTypePDF, Filename:= _
+      '    "C:\Users\Chris_2\Documents\Clubhouse Clothing\Finances\Payroll" & InfluencerName & ".pdf", Quality:=xlQualityStandard, _
+       '   IncludeDocProperties:=True, IgnorePrintAreas:=False, OpenAfterPublish:= _
+        '  True
+    
+    End If
+
+Next rc
+
+CurrentPeriod = Format(Date, "dd-mmm-yyyy")
+ActiveWorkbook.SaveAs Filename:=CurrentPeriod & "-Influencer-Compensation", _
+        FileFormat:=xlOpenXMLWorkbookMacroEnabled
+Send_Email
+
+End Sub
