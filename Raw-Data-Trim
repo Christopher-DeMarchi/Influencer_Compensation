@@ -1,0 +1,118 @@
+Sub ColumnDeleteforCommission()
+'
+' ColumnDeleteforCommission Macro
+' Deletes Uneeded Columns for Calculating Compensation
+'
+' Keyboard Shortcut: Ctrl+Shift+C
+'
+    Columns("A:BW").Select
+    Selection.Columns.AutoFit
+    Columns("B:B").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("C:C").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("F:F").Select
+    Selection.Delete Shift:=xlToLeft
+    ActiveWindow.ScrollColumn = 2
+    ActiveWindow.ScrollColumn = 3
+    ActiveWindow.ScrollColumn = 4
+    ActiveWindow.ScrollColumn = 5
+    ActiveWindow.ScrollColumn = 6
+    ActiveWindow.ScrollColumn = 7
+    ActiveWindow.ScrollColumn = 8
+    ActiveWindow.ScrollColumn = 9
+    ActiveWindow.ScrollColumn = 10
+    ActiveWindow.ScrollColumn = 11
+    ActiveWindow.ScrollColumn = 10
+    ActiveWindow.ScrollColumn = 11
+    ActiveWindow.ScrollColumn = 12
+    ActiveWindow.ScrollColumn = 13
+    ActiveWindow.ScrollColumn = 14
+    ActiveWindow.ScrollColumn = 15
+    ActiveWindow.ScrollColumn = 16
+    ActiveWindow.ScrollColumn = 17
+    ActiveWindow.ScrollColumn = 18
+    ActiveWindow.ScrollColumn = 19
+    Columns("S:S").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("S:BT").Select
+    Selection.Delete Shift:=xlToLeft
+    ActiveWindow.LargeScroll ToRight:=-2
+    ActiveWindow.ScrollColumn = 2
+    ActiveWindow.ScrollColumn = 3
+    ActiveWindow.ScrollColumn = 4
+    ActiveWindow.ScrollColumn = 5
+    ActiveWindow.ScrollColumn = 6
+    ActiveWindow.ScrollColumn = 7
+    ActiveWindow.ScrollColumn = 8
+    ActiveWindow.ScrollColumn = 9
+    ActiveWindow.ScrollColumn = 10
+    ActiveWindow.ScrollColumn = 11
+    ActiveWindow.ScrollColumn = 12
+    ActiveWindow.ScrollColumn = 13
+    ActiveWindow.ScrollColumn = 14
+    ActiveWindow.ScrollColumn = 15
+    ActiveWindow.ScrollColumn = 16
+    ActiveWindow.ScrollColumn = 17
+    ActiveWindow.ScrollColumn = 18
+    ActiveWindow.ScrollColumn = 19
+    ActiveWindow.ScrollColumn = 20
+    ActiveWindow.ScrollColumn = 21
+    ActiveWindow.ScrollColumn = 20
+    ActiveWindow.ScrollColumn = 19
+    ActiveWindow.ScrollColumn = 18
+    ActiveWindow.ScrollColumn = 17
+    ActiveWindow.ScrollColumn = 16
+    ActiveWindow.ScrollColumn = 15
+    ActiveWindow.ScrollColumn = 14
+    ActiveWindow.ScrollColumn = 13
+    ActiveWindow.ScrollColumn = 12
+    ActiveWindow.ScrollColumn = 11
+    ActiveWindow.ScrollColumn = 10
+    ActiveWindow.ScrollColumn = 9
+    ActiveWindow.ScrollColumn = 8
+    ActiveWindow.ScrollColumn = 7
+    ActiveWindow.ScrollColumn = 6
+    ActiveWindow.ScrollColumn = 5
+    ActiveWindow.ScrollColumn = 4
+    ActiveWindow.ScrollColumn = 3
+    ActiveWindow.ScrollColumn = 2
+    ActiveWindow.ScrollColumn = 1
+End Sub
+Sub HeaderForCompensation()
+'
+' HeaderForCompensation Macro
+' Makes Header for the influencer marketing commission
+'
+' Keyboard Shortcut: Ctrl+Shift+H
+'
+    Range("B3").Select
+    ActiveCell.FormulaR1C1 = "Name"
+    Range("C3").Select
+    ActiveCell.FormulaR1C1 = "Amount Due"
+    Columns("C:C").Select
+    Columns("C:C").EntireColumn.AutoFit
+    Range("B3:C3").Select
+    Selection.Font.Size = 12
+    Selection.Font.Size = 14
+    Selection.Font.Size = 16
+    Selection.Font.Bold = True
+    Selection.Font.Underline = xlUnderlineStyleSingle
+    Columns("C:C").EntireColumn.AutoFit
+    Range("C3").Select
+    Selection.ClearContents
+    ActiveCell.FormulaR1C1 = "Subtotal"
+    Range("D3").Select
+    ActiveCell.FormulaR1C1 = "Amount of Times Used"
+    Range("E3").Select
+    ActiveCell.FormulaR1C1 = "Amount Due"
+    Range("C3").Select
+    Selection.Copy
+    Range("D3:E3").Select
+    Selection.PasteSpecial Paste:=xlPasteFormats, Operation:=xlNone, _
+        SkipBlanks:=False, Transpose:=False
+    Application.CutCopyMode = False
+    Columns("C:E").Select
+    Selection.Columns.AutoFit
+    Range("B4").Select
+End Sub
