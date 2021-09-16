@@ -1,0 +1,46 @@
+Sub IncomeStatementAddins()
+'
+' IncomeStatementAddins Macro
+' Adds Gross Profit Margin, S&M and Operating income as percent of revenue
+'
+' Keyboard Shortcut: Ctrl+Shift+I
+'
+    Rows("14:14").Select
+    Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
+    Range("A14").Select
+    ActiveCell.FormulaR1C1 = "    Gross Profit Margin (% of Revenue)"
+    Range("B14").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=R[-1]C/R[-5]C"
+    Rows("17:17").Select
+    Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
+    Range("A17").Select
+    ActiveCell.FormulaR1C1 = "   A&M as (% of Revenue)"
+    Range("B17").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=R[-1]C/R[-8]C"
+    Rows("24:24").Select
+    Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
+    Range("A24").Select
+    ActiveCell.FormulaR1C1 = "   Net Operating Income (as % of Revenue)"
+    Range("B24").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=R[-1]C/R[-15]C"
+    Range("B25").Select
+    Columns("A:A").ColumnWidth = 34.67
+    Range("B24,B17,B14").Select
+    Range("B14").Activate
+    Selection.Style = "Percent"
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlBottom
+        .WrapText = True
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Range("A1:B1").Select
+End Sub
